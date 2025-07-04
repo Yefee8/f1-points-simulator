@@ -1,0 +1,96 @@
+---
+alwaysApply: false
+---
+# 🛠 Tech & Versions (lock‑in)
+
+| Tool         | Version / Constraint                                                        |
+| ------------ | --------------------------------------------------------------------------- |
+| Next.js      | `15.3.5` (App Router only)                                                  |
+| React        | `19.x`                                                                      |
+| TypeScript   | `^5` (strict mode)                                                          |
+| Tailwind CSS | `4.x` (dark‑mode‑first, JIT)                                                |
+| Package Mgr  | **bun** — run `bun install` / `bun run`, don’t add `npm` / `yarn` lockfiles |
+| Runtime      | Node `20+`                                                                  |
+
+> **Dependencies snapshot** (from `package.json`) is the single source of truth; do **not** add new packages without approval.
+
+---
+
+# 🧩 Architecture & Structure
+
+* **Functional Components Only** — no classes.
+* Directory naming: `lowercase-with-dashes`.
+* Prefer **React Server Components**; mark client code with `"use client"` sparingly and wrap in `<Suspense/>`.
+* Keep state local; escalate via Context only when unavoidable; never lift state unnecessarily.
+* Use `nuqs` for URL search params, `useReducer` for complex local logic.
+* File layout order inside modules: **export** → sub‑components → helpers → constants → types.
+* Named exports everywhere; default exports only for Next.js `page.tsx`, `layout.tsx`, or `error.tsx`.
+
+---
+
+# 🎨 UI & Styling
+
+* Compose UI with **Shadcn/UI** primitives + **Tailwind** utilities.
+* Mobile‑first sizing; respect prefers‑color‑scheme.
+* Use `clsx` and `tailwind-merge` to assemble class names.
+* Icons via **lucide‑react**.
+* Animate with `tw-animate-css` & `framer‑motion` (lazy‑load motion).
+
+---
+
+# ⚡️ Performance & Web Vitals
+
+* Optimise **LCP/CLS/FID**: server‑render critical content, defer non‑essential JS with `dynamic()`.
+* Use `next/image` (WebP, width/height set, lazy) for all imagery.
+* Memoise expensive sub‑trees (`React.memo`, `useMemo`, `useCallback`).
+* Provide stable `key` props for lists.
+
+---
+
+# 🏗 Patterns & Practices
+
+* `function` keyword for pure utilities; arrow functions only for inline callbacks.
+* No enums; use literal maps.
+* Interfaces preferred over type aliases.
+* Avoid magic numbers; extract constants.
+* All fetches via typed helpers in `lib/api.ts`; handle errors with typed `Result` objects.
+* Use **IndexedDB** helpers in `lib/db.ts` for persistence; interactions must be asynchronous and non‑blocking.
+
+---
+
+# ✅ Testing & Quality
+
+* Test with **React Testing Library** & **Vitest** (configure via bun); cover edge cases & error paths.
+* Write unit tests for utilities, integration tests for flows; snapshot tests only for stable output.
+* Lint with `next lint` + `@typescript-eslint/*`; fix all `--max-warnings 0`.
+* CI must run `bun run lint`, `bun run build`, and `bun test`.
+
+---
+
+# 📝 Forms & Accessibility
+
+* Controlled inputs; validation via Zod.
+* Provide keyboard nav, ARIA labels, focus rings.
+* All images include descriptive `alt`.
+
+---
+
+# 🧹 House‑keeping
+
+* Commit messages: `feat|fix|refactor|chore(scope): summary`.
+* Keep PRs < 300 LOC; request review when coverage ≥ 95 %.
+* Do not mutate `main`; branch off `feature/<ticket>` or `fix/<ticket>`.
+
+---
+
+# 🔒 Security
+
+* Sanitize all untrusted data.
+* Use prepared statements / parameterized queries (if DB introduced).
+* Never expose env secrets to the client.
+
+---
+
+# 🛑 When In Doubt
+
+* Stop coding, ask the stakeholders (i.e., @Yiğit) for guidance, then proceed once clarified.
