@@ -1,22 +1,9 @@
+@config "../../tailwind.config.js";
 @import "tailwindcss";
 
 :root {
-  --background: #FFFCFB;
-  --foreground: #222831;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #222831;
-    --foreground: #FFFCFB;
-  }
+  --background: #222831;
+  --foreground: #FFFCFB;
 }
 
 body {
