@@ -15,6 +15,4 @@ export interface Standing {
   driver: Driver;
   team: Team;
   points: number;
-  wins: number;
-  podiums: number;
 } 
