@@ -1,7 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { getDriverStandings, getTeamLineup } from "./f1-api/src/server";
-import { isDriverStanding } from "./f1-api/src/types/types";
+import { getDriverStandings, getTeamLineup } from "@/lib/f1-api/src/server";
 import { Standing } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
