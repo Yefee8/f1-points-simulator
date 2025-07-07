@@ -12,7 +12,9 @@ export interface Team {
 
 export interface Standing {
   position: number;
-  driver: Driver;
-  team: Team;
+  driver: string;
+  nationality: string;
+  team: string;
   points: number;
-} 
+  carLogo?: string;
+}
