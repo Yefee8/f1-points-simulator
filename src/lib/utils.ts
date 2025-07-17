@@ -2,8 +2,9 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { getTeamLineup } from "f1-api-node/dist/scraper/team-lineup.js";
 import { getDriverStandings } from "f1-api-node/dist/scraper/driver-standings.js";
+import { getRaceSchedule } from "f1-api-node/dist/scraper/race-schedule.js";
 
-import { Standing } from "@/types";
+import { Schedule, Standing } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -20,4 +21,9 @@ export async function getActiveStandings() {
     }
   });
   return activeStandings;
+}
+
+export async function getActiveSchedule() {
+  const activeSchedule: Schedule[] = await getRaceSchedule();
+  return activeSchedule;
 }

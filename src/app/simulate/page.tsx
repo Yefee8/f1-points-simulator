@@ -1,9 +1,9 @@
 import List from "@/components/dashboard/standings/List";
-import { getActiveStandings } from "@/lib/utils";
+import { getActiveSchedule, getActiveStandings } from "@/lib/utils";
 
 export default async function SimulatePage() {
   const f1Standings = await getActiveStandings();
-
+  const activeSchedule = await getActiveSchedule();
   return (
     <div className="flex flex-col min-h-screen w-full gap-2rem p-2rem max-w-6xl mx-auto">
       <div className="flex flex-col">

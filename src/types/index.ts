@@ -18,3 +18,10 @@ export interface Standing {
   points: number;
   carLogo?: string;
 }
+
+export interface Schedule {
+  round: string;
+  date: string;
+  raceCountry: string;
+  eventTitle: string;
+}
