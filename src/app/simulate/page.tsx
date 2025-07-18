@@ -1,4 +1,4 @@
-import List from "@/components/dashboard/standings/List";
+import SimulateList from "@/components/dashboard/standings/SimulateList/SimulateList";
 import { getActiveSchedule, getActiveStandings } from "@/lib/utils";
 
 export default async function SimulatePage() {
@@ -16,7 +16,10 @@ export default async function SimulatePage() {
       </div>
 
       <main className="flex-1 flex flex-col gap-2rem">
-        <List f1Standings={f1Standings} />
+        <SimulateList
+          activeSchedule={activeSchedule}
+          f1Standings={f1Standings}
+        />
       </main>
     </div>
   );

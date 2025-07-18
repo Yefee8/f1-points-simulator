@@ -18,6 +18,11 @@ export interface Standing {
   points: number;
   carLogo?: string;
 }
+export interface RaceResultDriver {
+  driver: string;
+  team: string;
+  carLogo?: string;
+}
 
 export interface Schedule {
   round: string;
