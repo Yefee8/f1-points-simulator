@@ -15,14 +15,14 @@ export default function SimulateListModal({
   activeRaceWeekendIndex,
   setShowModal,
   showModal,
-  changeableStandings,
+  standings,
   updateStandings,
 }: {
   activeSchedule: Schedule[];
   activeRaceWeekendIndex: number;
   setShowModal: (show: boolean) => void;
   showModal: boolean;
-  changeableStandings: Standing[];
+  standings: Standing[];
   updateStandings: Function;
 }) {
   const emptyDrivers: RaceResultDriver[] = Array.from({ length: 10 }, () => ({
@@ -36,7 +36,51 @@ export default function SimulateListModal({
 
   const pointSystem = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
 
-  console.log("TEST", raceResults);
+  const [draggedDriver, setDraggedDriver] = useState<Standing | null>(null);
+
+  const handleDragStart = (driver: Standing) => {
+    setDraggedDriver(driver);
+  };
+
+  const [localChangeableStandings, setLocalChangeableStandings] =
+    useState(standings);
+
+  const handleDrop = (index: number) => {
+    if (!draggedDriver) return;
+
+    const existingDriver = raceResults[index];
+    const newRaceResults = [...raceResults];
+
+    newRaceResults[index] = {
+      driver: draggedDriver.driver,
+      team: draggedDriver.team,
+      carLogo: draggedDriver.carLogo ?? "",
+    };
+
+    const isPlaceholder = existingDriver.driver === "Sebastian Vettel";
+
+    let updatedChangeableStandings: any[] = [...localChangeableStandings];
+
+    updatedChangeableStandings = updatedChangeableStandings.filter(
+      (d) => d.driver !== draggedDriver.driver
+    );
+
+    if (!isPlaceholder) {
+      updatedChangeableStandings = [
+        {
+          driver: existingDriver.driver,
+          team: existingDriver.team,
+          carLogo: existingDriver.carLogo,
+        },
+        ...updatedChangeableStandings,
+      ];
+    }
+
+    setRaceResults(newRaceResults);
+    setLocalChangeableStandings(updatedChangeableStandings);
+    updateStandings(updatedChangeableStandings);
+    setDraggedDriver(null);
+  };
 
   return (
     <>
@@ -74,7 +118,30 @@ export default function SimulateListModal({
                 </TableHeader>
                 <TableBody>
                   {raceResults.map((result, i) => (
-                    <TableRow key={i} className="hover:bg-muted/50">
+                    <TableRow
+                      onClick={() => {
+                        if (result.carLogo) {
+                          setLocalChangeableStandings((prev: any[]) => {
+                            const updatedStandings = [result, ...prev];
+                            return updatedStandings;
+                          });
+
+                          setRaceResults((prev) => {
+                            const updatedResults = [...prev];
+                            updatedResults[i] = {
+                              driver: "Sebastian Vettel",
+                              team: "Ferrari",
+                              carLogo: "",
+                            };
+                            return updatedResults;
+                          });
+                        }
+                      }}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={() => handleDrop(i)}
+                      key={i}
+                      className="hover:bg-muted/50"
+                    >
                       <TableCell className="font-medium text-left pl-4">
                         {i + 1}
                       </TableCell>
@@ -113,8 +180,12 @@ export default function SimulateListModal({
             </div>
 
             <div className="w-1/2 flex flex-wrap gap-4  max-h-[610px] overflow-y-auto">
-              {changeableStandings.map((driver: Standing, i: number) => (
-                <div className="flex flex-col justify-center p-2 rounded-lg bg-muted/50 hover:bg-muted cursor-pointer gap-2 h-[84px]">
+              {localChangeableStandings.map((driver: Standing, i: number) => (
+                <div
+                  draggable
+                  onDragStart={() => handleDragStart(driver)}
+                  className="flex flex-col justify-center p-2 rounded-lg bg-muted/50 hover:bg-muted cursor-pointer gap-2 h-[84px]"
+                >
                   <span className="font-medium">{driver.driver}</span>
                   <span className="text-sm text-muted-foreground">
                     {driver.team}

@@ -52,7 +52,7 @@ export default function SimulateList({
   return (
     <div className="flex flex-col gap-2">
       <SimulateListModal
-        changeableStandings={changeableStandings}
+        standings={changeableStandings}
         updateStandings={() => console.log("Update Standings")}
         activeSchedule={activeSchedule}
         activeRaceWeekendIndex={activeRaceWeekendIndex}
