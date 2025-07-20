@@ -27,3 +27,5 @@ export async function getActiveSchedule() {
   const activeSchedule: Schedule[] = await getRaceSchedule();
   return activeSchedule;
 }
+
+export const pointSystem = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];

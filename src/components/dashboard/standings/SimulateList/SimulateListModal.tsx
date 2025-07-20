@@ -9,8 +9,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import { pointSystem } from "@/lib/utils";
 
 export default function SimulateListModal({
+  endOfSchedule,
   activeSchedule,
   activeRaceWeekendIndex,
   setShowModal,
@@ -18,6 +20,7 @@ export default function SimulateListModal({
   standings,
   updateStandings,
 }: {
+  endOfSchedule: boolean;
   activeSchedule: Schedule[];
   activeRaceWeekendIndex: number;
   setShowModal: (show: boolean) => void;
@@ -33,8 +36,6 @@ export default function SimulateListModal({
 
   const [raceResults, setRaceResults] =
     useState<RaceResultDriver[]>(emptyDrivers);
-
-  const pointSystem = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
 
   const [draggedDriver, setDraggedDriver] = useState<Standing | null>(null);
 
@@ -78,25 +79,49 @@ export default function SimulateListModal({
 
     setRaceResults(newRaceResults);
     setLocalChangeableStandings(updatedChangeableStandings);
-    updateStandings(updatedChangeableStandings);
     setDraggedDriver(null);
   };
 
   return (
     <>
-      <button
-        onClick={() => setShowModal(true)}
-        className="p-1.5 h-auto bg-muted/50 hover:bg-muted duration-150 rounded-lg font-semibold cursor-pointer text-base"
-      >
-        Simulate from "{activeSchedule[activeRaceWeekendIndex].eventTitle}"
-      </button>
+      {!endOfSchedule && (
+        <button
+          onClick={() => setShowModal(true)}
+          className="p-1.5 h-auto bg-muted/50 hover:bg-muted duration-150 rounded-lg font-semibold cursor-pointer text-base"
+        >
+          Simulate from "{activeSchedule[activeRaceWeekendIndex].eventTitle}"
+        </button>
+      )}
 
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <div className="flex relative flex-col items-center gap-4 w-full">
           <div className="flex items-center gap-4 justify-between w-full">
-            <h2 className="text-2xl font-semibold text-foreground">
-              Simulate {activeSchedule[activeRaceWeekendIndex].eventTitle}
-            </h2>
+            <div className="flex gap-4 flex-wrap items-center">
+              <h2 className="text-2xl font-semibold text-foreground">
+                Simulate {activeSchedule[activeRaceWeekendIndex].eventTitle}
+              </h2>
+
+              <button
+                disabled={
+                  raceResults.filter((r) => r.driver === "Sebastian Vettel")
+                    .length > 0
+                }
+                onClick={() => {
+                  if (
+                    raceResults.filter((r) => r.driver === "Sebastian Vettel")
+                      .length == 0
+                  ) {
+                    updateStandings(raceResults);
+                    setShowModal(false);
+                    setRaceResults(emptyDrivers);
+                    setLocalChangeableStandings(standings);
+                  }
+                }}
+                className="p-1.5 disabled:cursor-not-allowed disabled:opacity-25 h-auto bg-muted/50 hover:bg-muted duration-150 rounded-lg font-semibold cursor-pointer text-base"
+              >
+                Simulate It
+              </button>
+            </div>
 
             <button
               onClick={() => setShowModal(false)}
@@ -182,6 +207,7 @@ export default function SimulateListModal({
             <div className="w-1/2 flex flex-wrap gap-4  max-h-[610px] overflow-y-auto">
               {localChangeableStandings.map((driver: Standing, i: number) => (
                 <div
+                  key={i}
                   draggable
                   onDragStart={() => handleDragStart(driver)}
                   className="flex flex-col justify-center p-2 rounded-lg bg-muted/50 hover:bg-muted cursor-pointer gap-2 h-[84px]"

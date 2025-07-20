@@ -1,6 +1,5 @@
 "use client";
 
-import { Modal } from "@/components/ui/modal";
 import {
   Table,
   TableBody,
@@ -9,9 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Schedule, Standing } from "@/types";
-import { useState } from "react";
+import { RaceResultDriver, Schedule, Standing } from "@/types";
+import { useCallback, useState } from "react";
 import SimulateListModal from "./SimulateListModal";
+import { pointSystem } from "@/lib/utils";
 
 // we can use suspense in here(to minimize loading states) but it is not too necessary idk
 
@@ -26,6 +26,8 @@ export default function SimulateList({
   const [changeableStandings, setChangeableStandings]: [Standing[], Function] =
     useState(f1Standings);
 
+  const [endOfSchedule, setEndOfSchedule] = useState(false);
+
   const getActiveRaceWeekend = () => {
     let scheduleIndex = 0;
     activeSchedule.map((schedule, i) => {
@@ -37,8 +39,9 @@ export default function SimulateList({
         `${scheduleString[0]}${scheduleString[1]}`,
         ""
       )} ${date.getFullYear()}`;
+
       const scheduleDate = new Date(dateString);
-      if (date < scheduleDate) {
+      if (date <= scheduleDate && scheduleIndex === 0) {
         scheduleIndex = i;
         return;
       }
@@ -47,13 +50,48 @@ export default function SimulateList({
     return scheduleIndex;
   };
 
-  const activeRaceWeekendIndex = getActiveRaceWeekend();
+  const raceWeekendLength = activeSchedule.length;
+  const [activeRaceWeekendIndex, setRaceWeekendIndex] = useState(
+    getActiveRaceWeekend()
+  );
   const [showModal, setShowModal] = useState(false);
+
+  const updateStandings = useCallback(
+    (raceResult: any[]) => {
+      let updatedChangeableStandings = [...changeableStandings];
+      raceResult.map((result, i) => {
+        let index = 0;
+
+        changeableStandings.filter((standing) => {
+          if (standing.driver === result.driver) {
+            index = i;
+          }
+        });
+
+        updatedChangeableStandings[index] = {
+          ...updatedChangeableStandings[index],
+          points: updatedChangeableStandings[index].points + pointSystem[i],
+        };
+      });
+
+      setChangeableStandings(updatedChangeableStandings);
+
+      if (raceWeekendLength - 1 > activeRaceWeekendIndex) {
+        setRaceWeekendIndex(activeRaceWeekendIndex + 1);
+      } else {
+        setEndOfSchedule(true);
+      }
+    },
+    [raceWeekendLength, activeRaceWeekendIndex, changeableStandings]
+  );
   return (
     <div className="flex flex-col gap-2">
       <SimulateListModal
+        endOfSchedule={endOfSchedule}
         standings={changeableStandings}
-        updateStandings={() => console.log("Update Standings")}
+        updateStandings={(raceResult: RaceResultDriver[]) => {
+          updateStandings(raceResult);
+        }}
         activeSchedule={activeSchedule}
         activeRaceWeekendIndex={activeRaceWeekendIndex}
         setShowModal={setShowModal}
