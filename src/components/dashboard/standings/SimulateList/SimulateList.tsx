@@ -59,7 +59,6 @@ export default function SimulateList({
   const updateStandings = useCallback(
     (raceResult: any[]) => {
       let updatedChangeableStandings = [...changeableStandings];
-      console.log(changeableStandings, raceResult, "TEST");
       raceResult.map((result, i) => {
         let index = 0;
 

@@ -17,6 +17,7 @@ export interface Standing {
   team: string;
   points: number;
   carLogo?: string;
+  driverImage?: string;
 }
 export interface RaceResultDriver {
   driver: string;

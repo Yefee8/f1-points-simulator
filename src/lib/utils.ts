@@ -17,7 +17,12 @@ export async function getActiveStandings() {
       cache: "no-cache",
     }
   );
-  const activeStandings: Standing[] = await activeStandingsReq.json();
+  let activeStandings: Standing[] = await activeStandingsReq.json();
+
+  activeStandings = activeStandings.map((standing) => ({
+    ...standing,
+    driverImage: "",
+  }));
 
   const activeTeamLineupReq = await fetch(
     "https://f1-points-simulator.vercel.app/api/active-team-lineup",
@@ -29,15 +34,30 @@ export async function getActiveStandings() {
 
   const activeTeamLineup = await activeTeamLineupReq.json();
 
+  const activeDriverLineupReq = await fetch(
+    "http://localhost:3000/api/active-driver-lineup",
+    {
+      method: "GET",
+      cache: "no-cache",
+    }
+  );
+
+  const activeDriverLineup = await activeDriverLineupReq.json();
+
   activeStandings.forEach((standing) => {
     const team = activeTeamLineup.find(
       (team: any) => team.name === standing.team
     );
+
+    const driver = activeDriverLineup.find(
+      (driver: any) => driver.name === standing.driver
+    );
+
     if (team) {
       standing.carLogo = team.carLogo;
+      standing.driverImage = driver?.driverImage || "";
     }
   });
-
 
   return activeStandings;
 }

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { pointSystem } from "@/lib/utils";
+import Image from "next/image";
 
 export default function SimulateListModal({
   endOfSchedule,
@@ -212,7 +213,20 @@ export default function SimulateListModal({
                   onDragStart={() => handleDragStart(driver)}
                   className="flex flex-col justify-center p-2 rounded-lg bg-muted/50 hover:bg-muted cursor-pointer gap-2 h-[84px]"
                 >
-                  <span className="font-medium">{driver.driver}</span>
+                  <div className="flex gap-2 items-center">
+                    <img
+                      width={36}
+                      height={36}
+                      alt={driver.driver}
+                      src={
+                        driver.driverImage
+                          ? driver.driverImage
+                          : "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+                      }
+                      className="w-9 h-9 object-cover object-top rounded-full"
+                    />
+                    <span className="font-medium">{driver.driver}</span>
+                  </div>
                   <span className="text-sm text-muted-foreground">
                     {driver.team}
                   </span>
