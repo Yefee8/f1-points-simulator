@@ -136,3 +136,8 @@
     animation: modal-open 0.2s ease-out;
   }
 }
+
+img{
+  user-select: none;
+  pointer-events: none;
+}
