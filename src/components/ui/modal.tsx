@@ -1,31 +1,46 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from "react";
 
 interface ModalProps {
-  isOpen: boolean
-  onClose: () => void
-  children: React.ReactNode
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
 }
 
 export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
-  const overlayRef = useRef<HTMLDivElement>(null)
+  const overlayRef = useRef<HTMLDivElement>(null);
 
+  // ESC tuşu ile kapatma
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', handleEsc)
-    return () => document.removeEventListener('keydown', handleEsc)
-  }, [onClose])
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
 
+  // Scrollbar'ı kontrol et
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Dışarı tıklayınca kapatma
   const handleClickOutside = (e: React.MouseEvent) => {
     if (e.target === overlayRef.current) {
-      onClose()
+      onClose();
     }
-  }
+  };
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <div
@@ -33,11 +48,9 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
       onClick={handleClickOutside}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
     >
-      <div
-        className="animate-modal-open w-full container rounded-2xl bg-neutral-900 p-6 text-white shadow-xl transition-all duration-300"
-      >
+      <div className="animate-modal-open w-full container rounded-2xl bg-neutral-900 p-6 text-white shadow-xl transition-all duration-300">
         {children}
       </div>
     </div>
-  )
-}
+  );
+};

@@ -151,7 +151,7 @@ export default function SimulateList({
                     </div>
                   </TableCell>
                   <TableCell className="text-right font-semibold pr-4">
-                    {standing.points}
+                    {standing.points} <span className="text-gray-500">({f1Standings[f1Standings.indexOf(standing)].points})</span>
                   </TableCell>
                 </TableRow>
               ))}
