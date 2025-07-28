@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { RaceResultDriver, Schedule, Standing } from "@/types";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import SimulateListModal from "./SimulateListModal";
 import { pointSystem } from "@/lib/utils";
 
@@ -82,6 +82,11 @@ export default function SimulateList({
       setEndOfSchedule(true);
     }
   };
+
+  const sortedStandings = useMemo(() => {
+    return [...changeableStandings].sort((a, b) => b.points - a.points);
+  }, [changeableStandings]);
+
   return (
     <div className="flex flex-col gap-2">
       <SimulateListModal
@@ -107,10 +112,10 @@ export default function SimulateList({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {changeableStandings.map((standing) => (
+              {sortedStandings.map((standing, i) => (
                 <TableRow key={standing.position} className="hover:bg-muted/50">
                   <TableCell className="font-medium text-left pl-4">
-                    {standing.position}
+                    {i + 1}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
