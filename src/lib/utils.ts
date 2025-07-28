@@ -35,7 +35,7 @@ export async function getActiveStandings() {
   const activeTeamLineup = await activeTeamLineupReq.json();
 
   const activeDriverLineupReq = await fetch(
-    "http://localhost:3000/api/active-driver-lineup",
+    "http://f1-points-simulator.vercel.app/api/active-driver-lineup",
     {
       method: "GET",
       cache: "no-cache",
