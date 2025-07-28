@@ -48,16 +48,16 @@ This project aims to translate the most common "what if..." scenarios among F1 f
 
 ## 📂 Proposed File & Routing Structure
 
-Based on your existing `src/app` directory, here is a proposed structure to accommodate the project's features.
+Based on your current `src/app` directory, here is the finalized structure reflecting your project layout.
 
 ### Routing Architecture (`src/app`)
 
 ```
-/                                   -> Homepage, likely redirects to the latest season's standings.
-/standings/[year]                   -> The main page displaying driver/constructor standings for a given year.
-  - /standings/2025                 -> The primary screen where the simulation takes place.
-  - /standings/2024                 -> A view for a completed, historical season.
-/api/f1/[...path]                   -> Backend routes for proxying/caching requests to the external F1 API.
+/                                   -> Homepage or simulation entry page
+/simulate                           -> Race result simulation page
+/api/active-driver-lineup           -> Returns active drivers
+/api/active-standings               -> Returns current driver & constructor standings
+/api/active-team-lineup             -> Returns current team lineup
 ```
 
 ### Detailed File Structure
@@ -66,35 +66,50 @@ Based on your existing `src/app` directory, here is a proposed structure to acco
 .
 ├── src/
 │   ├── app/
-│   │   ├── favicon.ico
-│   │   ├── globals.css
+│   │   ├── api/
+│   │   │   ├── active-driver-lineup/
+│   │   │   │   └── route.ts          # API for active drivers
+│   │   │   ├── active-standings/
+│   │   │   │   └── route.ts          # API for current standings
+│   │   │   └── active-team-lineup/
+│   │   │       └── route.ts          # API for team lineup
+│   │   ├── simulate/
+│   │   │   └── page.tsx              # Main simulation page
 │   │   ├── layout.tsx                # Root layout
-│   │   └── standings/
-│   │       └── [year]/
-│   │           ├── page.tsx          # Renders the standings/simulation UI based on the [year] param.
-│   │           └── loading.tsx       # Skeleton component shown while data is being fetched.
-│   │
-│   ├── components/
-│   │   ├── ui/                       # Base components copied from Shadcn/UI (button, dialog, etc.)
-│   │   ├── core/
-│   │   │   ├── Header.tsx            # Site header and navigation
-│   │   │   ├── ThemeToggle.tsx       # Dark/light mode toggle button
-│   │   │   └── Footer.tsx
-│   │   └── f1/
-│   │       ├── StandingsTable.tsx    # The main drivers' standings table
-│   │       ├── ConstructorsTable.tsx # The constructors' standings table
-│   │       ├── RaceCard.tsx          # A card for each race in the season calendar
-│   │       ├── SimulationModal.tsx   # The modal/dialog for inputting race results
-│   │       └── DriverSelectInput.tsx # A custom select component for the simulation modal
-│   │
-│   ├── lib/
-│   │   ├── api.ts                    # Functions to manage communication with the external F1 API.
-│   │   ├── calculations.ts           # The core logic for calculating points and updating standings.
-│   │   ├── db.ts                     # Helper functions for IndexedDB operations (get, set, update).
-│   │   ├── types.ts                  # Global TypeScript types (Driver, Race, Standings, etc.).
-│   │   └── utils.ts                  # General utility functions (cn, formatDate, etc.).
+│   │   ├── page.tsx                  # Homepage or layout wrapper
+│   │   └── globals.css               # Global styles
 │
-├── public/                           # Static assets (SVGs, images)
-├── next.config.js
-└── tailwind.config.js
+│   ├── components/
+│   │   ├── dashboard/
+│   │   │   └── standings/
+│   │   │       └── SimulateList/
+│   │   │           ├── SimulateList.tsx
+│   │   │           ├── SimulateListModal.tsx
+│   │   │           ├── List.tsx
+│   │   │           └── StandingsList.tsx
+│   │   │
+│   │   └── Dashboard.tsx            # Standings dashboard wrapper
+│   │
+│   │   └── ui/
+│   │       ├── modal.tsx            # Modal UI component
+│   │       └── table.tsx            # Table UI component
+│
+│   ├── lib/
+│   │   └── utils.ts                 # Utility functions
+│
+│   └── types/
+│       └── index.ts                 # Shared TypeScript types
+│
+├── .gitignore
+├── .yarnrc.yml
+├── components.json
+├── next-env.d.ts
+├── next.config.ts
+├── package.json
+├── package-lock.json
+├── yarn.lock
+├── postcss.config.mjs
+├── tailwind.config.js
+├── tsconfig.json
+└── README.md
 ```
