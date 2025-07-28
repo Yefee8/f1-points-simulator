@@ -59,6 +59,7 @@ export default function SimulateList({
   const updateStandings = useCallback(
     (raceResult: any[]) => {
       let updatedChangeableStandings = [...changeableStandings];
+      console.log(changeableStandings, raceResult, "TEST");
       raceResult.map((result, i) => {
         let index = 0;
 
@@ -151,7 +152,14 @@ export default function SimulateList({
                     </div>
                   </TableCell>
                   <TableCell className="text-right font-semibold pr-4">
-                    {standing.points} <span className="text-gray-500">({f1Standings[f1Standings.indexOf(standing)].points})</span>
+                    {standing.points}{" "}
+                    <span className="text-gray-500">
+                      (
+                      {
+                        f1Standings.find((st) => st.driver === standing.driver)?.points ?? 0
+                      }
+                      )
+                    </span>
                   </TableCell>
                 </TableRow>
               ))}
