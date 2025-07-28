@@ -30,6 +30,14 @@ export const metadata: Metadata = {
     description:
       "Simulate Formula 1 race results, assign points, and track driver standings dynamically.",
     url: "https://f1-points-simulator.vercel.app",
+    images: [
+      {
+        url: "https://f1-points-simulator.vercel.app/og-image.png",
+        width: 1920,
+        height: 1080,
+        alt: "F1 Points Simulator Open Graph Image",
+      },
+    ],
     siteName: "F1 Points Simulator",
     locale: "en_US",
     type: "website",
