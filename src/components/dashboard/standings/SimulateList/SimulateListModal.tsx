@@ -96,7 +96,7 @@ export default function SimulateListModal({
       )}
 
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-        <div className="flex relative max-md:justify-evenly flex-col items-center gap-4 w-full max-md:h-screen overflow-y-scroll">
+        <div className="flex max-md:py-4 overflow-y-auto relative max-md:justify-evenly flex-col items-center gap-4 w-full max-md:h-screen">
           <div className="flex items-center gap-4 justify-between w-full">
             <div className="flex gap-4 flex-wrap items-center">
               <h2 className="text-2xl font-semibold text-foreground">

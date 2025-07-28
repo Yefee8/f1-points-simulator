@@ -56,34 +56,32 @@ export default function SimulateList({
   );
   const [showModal, setShowModal] = useState(false);
 
-  const updateStandings = useCallback(
-    (raceResult: any[]) => {
-      let updatedChangeableStandings = [...changeableStandings];
-      raceResult.map((result, i) => {
-        let index = 0;
+  const updateStandings = (raceResult: any[]) => {
+    let updatedChangeableStandings = [...changeableStandings];
 
-        changeableStandings.filter((standing) => {
-          if (standing.driver === result.driver) {
-            index = i;
-          }
-        });
+    raceResult.map((result, i) => {
+      let index = 0;
 
-        updatedChangeableStandings[index] = {
-          ...updatedChangeableStandings[index],
-          points: updatedChangeableStandings[index].points + pointSystem[i],
-        };
+      changeableStandings.filter((standing, otherIndex) => {
+        if (standing.driver === result.driver) {
+          index = otherIndex;
+        }
       });
 
-      setChangeableStandings(updatedChangeableStandings);
+      updatedChangeableStandings[index] = {
+        ...updatedChangeableStandings[index],
+        points: updatedChangeableStandings[index].points + pointSystem[i],
+      };
+    });
 
-      if (raceWeekendLength - 1 > activeRaceWeekendIndex) {
-        setRaceWeekendIndex(activeRaceWeekendIndex + 1);
-      } else {
-        setEndOfSchedule(true);
-      }
-    },
-    [raceWeekendLength, activeRaceWeekendIndex, changeableStandings]
-  );
+    setChangeableStandings(updatedChangeableStandings);
+
+    if (raceWeekendLength - 1 > activeRaceWeekendIndex) {
+      setRaceWeekendIndex(activeRaceWeekendIndex + 1);
+    } else {
+      setEndOfSchedule(true);
+    }
+  };
   return (
     <div className="flex flex-col gap-2">
       <SimulateListModal
