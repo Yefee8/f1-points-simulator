@@ -1,7 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { getTeamLineup } from "f1-api-node/dist/scraper/team-lineup.js";
-import { getDriverStandings } from "f1-api-node/dist/scraper/driver-standings.js";
 import { getRaceSchedule } from "f1-api-node/dist/scraper/race-schedule.js";
 
 import { Schedule, Standing } from "@/types";
@@ -11,15 +9,38 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export async function getActiveStandings() {
-  const activeStandings: Standing[] = await getDriverStandings();
-  const activeTeamLineup = await getTeamLineup();
+  // we could've use .env and stuff but it's already open-source. feel free to use :)
+  const activeStandingsReq = await fetch(
+    "https://f1-points-simulator.vercel.app/api/active-standings",
+    {
+      method: "GET",
+      cache: "no-cache",
+    }
+  );
+  const activeStandings: Standing[] = await activeStandingsReq.json();
 
+  const activeTeamLineupReq = await fetch(
+    "https://f1-points-simulator.vercel.app/api/active-team-lineup",
+    {
+      method: "GET",
+      cache: "no-cache",
+    }
+  );
+
+  const activeTeamLineup = await activeTeamLineupReq.json();
+
+  console.log("Active Standings:", activeStandings);
+  console.log("Active Team Lineup:", activeTeamLineup);
   activeStandings.forEach((standing) => {
-    const team = activeTeamLineup.find((team) => team.name === standing.team);
+    const team = activeTeamLineup.find(
+      (team: any) => team.name === standing.team
+    );
     if (team) {
       standing.carLogo = team.carLogo;
     }
   });
+
+
   return activeStandings;
 }
 
