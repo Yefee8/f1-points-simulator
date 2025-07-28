@@ -12,20 +12,14 @@ This project aims to translate the most common "what if..." scenarios among F1 f
 
 ## ✨ Core Features
 
-  - **Historical & Current Season Data:**
-      - Fetch and display the final Drivers' and Constructors' standings for any selected year (e.g., 2007, 2021, 2024).
-      - Display the race calendar and the results of each Grand Prix for that season.
-  - **Live Simulation Mode (2025 Season):**
-      - Display the up-to-date Drivers' and Constructors' standings for the 2025 season.
+  - **Live Simulation Mode (Current Season):**
+      - Display the up-to-date Drivers' and Constructors' standings for the Current season.
       - Lock in the results for races that have already occurred.
   - **Interactive Result Input:**
       - Allow users to define the top 10 finishers for each upcoming race.
       - Provide an intuitive interface (e.g., drag-and-drop or select menus) to rank drivers.
-      - Include an option to assign the "Fastest Lap" bonus point (+1 point) to a specific driver.
   - **Dynamic Standings Calculation:**
       - Instantly update the Drivers' and Constructors' standings tables with smooth animations whenever a user inputs or modifies a race result.
-  - **Data Persistence:**
-      - User-created simulations are saved locally in the browser's **IndexedDB**. This allows users to close the tab and return later to find their simulation preserved.
   - **Responsive & Modern UI:**
       - A sleek, dark-mode-first interface built with **Tailwind CSS** and based on **Shadcn/UI** principles, ensuring a flawless experience on both desktop and mobile devices.
 
@@ -40,7 +34,6 @@ This project aims to translate the most common "what if..." scenarios among F1 f
 | **TypeScript** | Enforcing type safety across the project for improved developer experience and robustness.                |
 | **Tailwind CSS** | A utility-first CSS framework for rapid, custom, and modern UI design.                                  |
 | **Shadcn/UI** | A foundation for accessible and composable UI components that can be easily customized.                   |
-| **IndexedDB** | A client-side, serverless database for persisting simulation data directly in the user's browser.        |
 | **f1-api-node**| For fetching dynamic data like the 2025 driver lineup and race calendar (or an alternative F1 API).         |
 | **Vercel** | For seamless deployment and fast global delivery of the application.                                    |
 
