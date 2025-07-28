@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   title: "F1 Points Simulator - Race, Simulate & Track Standings",
@@ -24,7 +24,10 @@ export const metadata: Metadata = {
     "Standings",
     "F1 Drivers",
   ],
-  authors: [{ name: "Yefee", url: "https://github.com/Yefee8" }, { name: "Agora", url: "https://github.com/yigitfindikli" }],
+  authors: [
+    { name: "Yefee", url: "https://github.com/Yefee8" },
+    { name: "Agora", url: "https://github.com/yigitfindikli" },
+  ],
   openGraph: {
     title: "F1 Points Simulator",
     description:
@@ -44,7 +47,6 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -57,6 +59,7 @@ export default function RootLayout({
       >
         {children}
       </body>
+      <Analytics />
     </html>
   );
 }
