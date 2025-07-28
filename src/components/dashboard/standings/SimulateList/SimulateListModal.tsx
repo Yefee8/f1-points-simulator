@@ -57,6 +57,7 @@ export default function SimulateListModal({
       driver: draggedDriver.driver,
       team: draggedDriver.team,
       carLogo: draggedDriver.carLogo ?? "",
+      driverImage: draggedDriver.driverImage ?? "",
     };
 
     const isPlaceholder = existingDriver.driver === "Sebastian Vettel";
@@ -175,23 +176,35 @@ export default function SimulateListModal({
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <img
+                            width={16}
+                            height={16}
+                            alt={result.driver}
                             src={
-                              result.carLogo
-                                ? result.carLogo
-                                : "https://placehold.co/400"
+                              result.driverImage
+                                ? result.driverImage
+                                : "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
                             }
-                            alt={`${result.driver} car logo`}
-                            className="w-8 h-8 grayscale-100 rounded-full"
+                            className="w-8 h-8 object-cover object-top rounded-full"
                           />
+
                           <div className="flex flex-col">
-                            <div className="flex gap-1">
-                              <span className="font-medium">
-                                {result.driver}
+                            <span className="font-medium">{result.driver}</span>
+
+                            <div className="flex gap-1 items-center">
+                              <span className="text-sm text-muted-foreground">
+                                {result.team}
                               </span>
+
+                              <img
+                                src={
+                                  result.carLogo
+                                    ? result.carLogo
+                                    : "https://placehold.co/400"
+                                }
+                                alt={`${result.driver} car logo`}
+                                className="w-4 h-4 grayscale-100 rounded-full"
+                              />
                             </div>
-                            <span className="text-sm text-muted-foreground">
-                              {result.team}
-                            </span>
                           </div>
                         </div>
                       </TableCell>

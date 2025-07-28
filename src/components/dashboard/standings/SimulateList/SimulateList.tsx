@@ -117,36 +117,29 @@ export default function SimulateList({
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <img
-                        src={standing.carLogo}
-                        alt={`${standing.driver} car logo`}
-                        className="w-8 h-8 grayscale-100 rounded-full"
+                        width={16}
+                        height={16}
+                        alt={standing.driver}
+                        src={
+                          standing.driverImage
+                            ? standing.driverImage
+                            : "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+                        }
+                        className="w-8 h-8 object-cover object-top rounded-full"
                       />
                       <div className="flex flex-col">
-                        <div className="flex gap-1">
-                          <span className="font-medium">{standing.driver}</span>
+                        <span className="font-medium">{standing.driver}</span>
 
-                          <span>
-                            {/* It turns 3-letter country names into emojis: */}
-                            {standing.nationality
-                              .replace(
-                                standing.nationality[
-                                  standing.nationality.length - 1
-                                ],
-                                ""
-                              )
-                              .toUpperCase()
-                              .split("")
-                              .map((char) =>
-                                String.fromCodePoint(
-                                  char.charCodeAt(0) + 0x1f1a5
-                                )
-                              )
-                              .join("")}
+                        <div className="flex gap-1 items-center">
+                          <span className="text-sm text-muted-foreground">
+                            {standing.team}
                           </span>
+                          <img
+                            src={standing.carLogo}
+                            alt={`${standing.driver} car logo`}
+                            className="w-4 h-4 grayscale-100 rounded-full"
+                          />
                         </div>
-                        <span className="text-sm text-muted-foreground">
-                          {standing.team}
-                        </span>
                       </div>
                     </div>
                   </TableCell>
@@ -154,9 +147,8 @@ export default function SimulateList({
                     {standing.points}{" "}
                     <span className="text-gray-500">
                       (
-                      {
-                        f1Standings.find((st) => st.driver === standing.driver)?.points ?? 0
-                      }
+                      {f1Standings.find((st) => st.driver === standing.driver)
+                        ?.points ?? 0}
                       )
                     </span>
                   </TableCell>

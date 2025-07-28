@@ -23,6 +23,7 @@ export interface RaceResultDriver {
   driver: string;
   team: string;
   carLogo?: string;
+  driverImage?: string;
 }
 
 export interface Schedule {
