@@ -29,8 +29,6 @@ export async function getActiveStandings() {
 
   const activeTeamLineup = await activeTeamLineupReq.json();
 
-  console.log("Active Standings:", activeStandings);
-  console.log("Active Team Lineup:", activeTeamLineup);
   activeStandings.forEach((standing) => {
     const team = activeTeamLineup.find(
       (team: any) => team.name === standing.team
