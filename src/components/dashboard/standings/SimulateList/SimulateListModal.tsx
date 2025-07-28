@@ -221,7 +221,7 @@ export default function SimulateListModal({
                       src={
                         driver.driverImage
                           ? driver.driverImage
-                          : "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+                          : "https://placehold.co/400"
                       }
                       className="w-9 h-9 object-cover object-top rounded-full"
                     />
