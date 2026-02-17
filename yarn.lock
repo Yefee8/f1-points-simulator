@@ -914,7 +914,7 @@ express@^4.19.2:
 
 f1-api-node@^2.2.2:
   version "2.2.2"
-  resolved "https://registry.npmjs.org/f1-api-node/-/f1-api-node-2.2.2.tgz"
+  resolved "https://registry.yarnpkg.com/f1-api-node/-/f1-api-node-2.2.2.tgz#9013fce5c3a5a4c662278503bcd8e9c9f33cb3d6"
   integrity sha512-oz8oNDQ1vaxC3nS5ZgzHPyUTshSwO2wRUIJKlk3fimwTXlYHjiKW2ejPShEO737AAJdt0kkg4cFWx3f432dJzQ==
   dependencies:
     "@types/express" "^4.17.21"

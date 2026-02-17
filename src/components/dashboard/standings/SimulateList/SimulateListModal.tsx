@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { pointSystem } from "@/lib/utils";
-import Image from "next/image";
 
 export default function SimulateListModal({
   endOfSchedule,
@@ -32,7 +31,8 @@ export default function SimulateListModal({
   const emptyDrivers: RaceResultDriver[] = Array.from({ length: 10 }, () => ({
     driver: "Sebastian Vettel",
     team: "Ferrari",
-    carLogo: "",
+    carLogo: "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/ferrari/2026ferrarilogowhite.webp",
+    driverImage: "https://media.formula1.com/image/upload/c_lfill,w_440/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp/v1740000000/common/f1/2026/ferrari/chalec01/2026ferrarisebvet01right.webp",
   }));
 
   const [raceResults, setRaceResults] =

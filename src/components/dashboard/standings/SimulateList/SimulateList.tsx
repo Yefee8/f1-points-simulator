@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { RaceResultDriver, Schedule, Standing } from "@/types";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import SimulateListModal from "./SimulateListModal";
 import { pointSystem } from "@/lib/utils";
 
@@ -28,33 +28,26 @@ export default function SimulateList({
 
   const [endOfSchedule, setEndOfSchedule] = useState(false);
 
-  const getActiveRaceWeekend = () => {
+  const raceWeekendLength = activeSchedule.length;
+  const [activeRaceWeekendIndex, setRaceWeekendIndex] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(()=>{
     let scheduleIndex = 0;
     activeSchedule.map((schedule, i) => {
-      const [_, scheduleString] = schedule.date.split("-");
-
-      const dateString = `${scheduleString[0]}${
-        scheduleString[1]
-      } ${scheduleString.replace(
-        `${scheduleString[0]}${scheduleString[1]}`,
-        ""
-      )} ${date.getFullYear()}`;
-
-      const scheduleDate = new Date(dateString);
+      const scheduleDate = new Date(schedule.date);
       if (date <= scheduleDate && scheduleIndex === 0) {
         scheduleIndex = i;
         return;
       }
     });
 
-    return scheduleIndex;
-  };
+    if(scheduleIndex === 0) {
+      return setEndOfSchedule(true);
+    }
 
-  const raceWeekendLength = activeSchedule.length;
-  const [activeRaceWeekendIndex, setRaceWeekendIndex] = useState(
-    getActiveRaceWeekend()
-  );
-  const [showModal, setShowModal] = useState(false);
+    setRaceWeekendIndex(scheduleIndex);
+  },[activeSchedule, setEndOfSchedule, setRaceWeekendIndex]);
 
   const updateStandings = (raceResult: any[]) => {
     let updatedChangeableStandings = [...changeableStandings];
