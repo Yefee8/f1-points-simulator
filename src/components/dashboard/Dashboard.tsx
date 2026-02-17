@@ -8,7 +8,7 @@ export function Dashboard() {
           F1 Points Simulator
         </h1>
         <p className="text-1.25rem text-muted-foreground">
-          2025 Formula 1 Championship Standings
+          Simulate the rest of the F1 season and see how the standings would change based on different race results!
         </p>
       </header>
       

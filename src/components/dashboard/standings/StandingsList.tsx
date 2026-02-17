@@ -3,13 +3,12 @@ import List from "./List";
 import { getActiveStandings } from "@/lib/utils";
 
 export async function StandingsList() {
-  const year = new Date().getFullYear();
   const data = await getActiveStandings();
   return (
     <div className="flex flex-col gap-2rem">
       <div className="flex gap-4 justify-between">
         <h2 className="text-2rem font-semibold text-foreground">
-          {year} Standings
+          Current Standings
         </h2>
 
         <Link href="/simulate">

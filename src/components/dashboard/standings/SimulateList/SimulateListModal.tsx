@@ -31,8 +31,10 @@ export default function SimulateListModal({
   const emptyDrivers: RaceResultDriver[] = Array.from({ length: 10 }, () => ({
     driver: "Sebastian Vettel",
     team: "Ferrari",
-    carLogo: "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/ferrari/2026ferrarilogowhite.webp",
-    driverImage: "https://media.formula1.com/image/upload/c_lfill,w_440/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp/v1740000000/common/f1/2026/ferrari/chalec01/2026ferrarisebvet01right.webp",
+    carLogo:
+      "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/ferrari/2026ferrarilogowhite.webp",
+    driverImage:
+      "https://media.formula1.com/image/upload/c_lfill,w_440/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp/v1740000000/common/f1/2026/ferrari/chalec01/2026ferrarisebvet01right.webp",
   }));
 
   const [raceResults, setRaceResults] =
@@ -65,7 +67,7 @@ export default function SimulateListModal({
     let updatedChangeableStandings: any[] = [...localChangeableStandings];
 
     updatedChangeableStandings = updatedChangeableStandings.filter(
-      (d) => d.driver !== draggedDriver.driver
+      (d) => d.driver !== draggedDriver.driver,
     );
 
     if (!isPlaceholder) {
@@ -147,7 +149,7 @@ export default function SimulateListModal({
                   {raceResults.map((result, i) => (
                     <TableRow
                       onClick={() => {
-                        if (result.carLogo) {
+                        if (result.driver !== "Sebastian Vettel") {
                           setLocalChangeableStandings((prev: any[]) => {
                             const updatedStandings = [result, ...prev];
                             return updatedStandings;
@@ -158,7 +160,10 @@ export default function SimulateListModal({
                             updatedResults[i] = {
                               driver: "Sebastian Vettel",
                               team: "Ferrari",
-                              carLogo: "",
+                              carLogo:
+                                "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/ferrari/2026ferrarilogowhite.webp",
+                              driverImage:
+                                "https://media.formula1.com/image/upload/c_lfill,w_440/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp/v1740000000/common/f1/2026/ferrari/chalec01/2026ferrarisebvet01right.webp",
                             };
                             return updatedResults;
                           });
