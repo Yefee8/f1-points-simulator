@@ -46,7 +46,7 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
     <div
       ref={overlayRef}
       onClick={handleClickOutside}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
     >
       <div className="animate-modal-open w-full container rounded-2xl bg-neutral-900 p-6 text-white shadow-xl transition-all duration-300">
         {children}

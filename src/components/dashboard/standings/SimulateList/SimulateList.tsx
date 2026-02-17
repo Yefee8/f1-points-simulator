@@ -43,7 +43,7 @@ export default function SimulateList({
     });
 
     if(scheduleIndex === 0) {
-      return setEndOfSchedule(true);
+      // return setEndOfSchedule(true); 
     }
 
     setRaceWeekendIndex(scheduleIndex);

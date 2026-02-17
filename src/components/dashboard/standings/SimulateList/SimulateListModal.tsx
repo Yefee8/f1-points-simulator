@@ -133,8 +133,8 @@ export default function SimulateListModal({
             </button>
           </div>
 
-          <div className="w-full flex gap-4">
-            <div className="w-1/2 h-[610px]">
+          <div className="w-full flex max-md:flex-col gap-8">
+            <div className="w-full md:w-1/2 h-[calc(50vh-132px)] md:h-[610px] max-md:overflow-y-auto scheme-dark">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -218,7 +218,7 @@ export default function SimulateListModal({
               </Table>
             </div>
 
-            <div className="w-1/2 flex flex-wrap gap-4 items-start max-h-[610px] overflow-y-auto">
+            <div className="w-full md:w-1/2 h-[calc(50vh-132px)] grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 items-start md:h-[610px] overflow-y-auto scheme-dark pr-2">
               {localChangeableStandings.map((driver: Standing, i: number) => (
                 <div
                   key={i}
