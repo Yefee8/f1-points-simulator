@@ -1,108 +1,94 @@
 # 🏎️ F1 Points Simulator
 
-An interactive web application for Formula 1 enthusiasts, designed to display historical and current season data. It allows users to input their own race results for upcoming Grand Prix and instantly see how the championship standings would be affected.
+An interactive Formula 1 standings simulator built with Next.js. It shows current driver standings, lets you simulate upcoming race weekends, and recalculates points instantly.
 
------
+---
 
-## 🎯 Project Vision
+## ✨ What It Does
 
-This project aims to translate the most common "what if..." scenarios among F1 fans into tangible data. Users can input their own predictions or desired outcomes for the remaining races of a season and instantly calculate the potential results in the Drivers' and Constructors' championships. The application strives to be not only a simulation tool but also a sleek and fast reference for historical and current F1 data.
+- Displays live **driver standings** on the home page.
+- Pulls the active race calendar and starts simulation from the next available race.
+- Lets you drag and drop drivers into a top-10 result order.
+- Applies the standard F1 top-10 points system: `25, 18, 15, 12, 10, 8, 6, 4, 2, 1`.
+- Updates standings after each simulated round and continues weekend by weekend until the season ends.
 
------
+> Note: Current implementation focuses on **drivers standings** simulation (not constructors standings).
 
-## ✨ Core Features
+---
 
-  - **Live Simulation Mode (Current Season):**
-      - Display the up-to-date Drivers' and Constructors' standings for the Current season.
-      - Lock in the results for races that have already occurred.
-  - **Interactive Result Input:**
-      - Allow users to define the top 10 finishers for each upcoming race.
-      - Provide an intuitive interface (e.g., drag-and-drop or select menus) to rank drivers.
-  - **Dynamic Standings Calculation:**
-      - Instantly update the Drivers' and Constructors' standings tables with smooth animations whenever a user inputs or modifies a race result.
-  - **Responsive & Modern UI:**
-      - A sleek, dark-mode-first interface built with **Tailwind CSS** and based on **Shadcn/UI** principles, ensuring a flawless experience on both desktop and mobile devices.
+## 🧠 Data & Logic
 
------
+- Standings and schedule data are fetched from the Ergast-compatible Jolpica endpoint:
+  - `https://api.jolpi.ca/ergast/f1/{year}/driverstandings/?format=json`
+  - `https://api.jolpi.ca/ergast/f1/{year}/races/?format=json`
+- If the current season is not available yet, the app falls back to the previous season.
+- Driver/team images are resolved from Formula1 media asset URLs.
 
-## 🛠️ Tech Stack & Architecture
+---
 
-| Technology     | Purpose                                                                                                 |
-| :------------- | :------------------------------------------------------------------------------------------------------ |
-| **Next.js** | Modern routing with the App Router, performance via Server-Side Rendering (SSR) and Static Site Generation (SSG). |
-| **React** | Building a component-based user interface.                                                              |
-| **TypeScript** | Enforcing type safety across the project for improved developer experience and robustness.                |
-| **Tailwind CSS** | A utility-first CSS framework for rapid, custom, and modern UI design.                                  |
-| **Shadcn/UI** | A foundation for accessible and composable UI components that can be easily customized.                   |
-| **f1-api-node**| For fetching dynamic data like the 2025 driver lineup and race calendar (or an alternative F1 API).         |
-| **Vercel** | For seamless deployment and fast global delivery of the application.                                    |
+## 🛠️ Tech Stack
 
------
+- **Next.js 15** (App Router)
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS v4** + `tw-animate-css`
+- **Shadcn-style UI primitives** (table/modal components)
+- **Vercel Analytics**
 
-## 📂 Proposed File & Routing Structure
+---
 
-Based on your current `src/app` directory, here is the finalized structure reflecting your project layout.
+## 🗺️ Routes
 
-### Routing Architecture (`src/app`)
+- `/` → Dashboard with current driver standings
+- `/simulate` → Season simulation screen
 
-```
-/                                   -> Homepage or simulation entry page
-/simulate                           -> Race result simulation page
-/api/active-driver-lineup           -> Returns active drivers
-/api/active-standings               -> Returns current driver & constructor standings
-/api/active-team-lineup             -> Returns current team lineup
-```
+---
 
-### Detailed File Structure
+## 📁 Project Structure
 
 ```
 .
 ├── src/
 │   ├── app/
-│   │   ├── api/
-│   │   │   ├── active-driver-lineup/
-│   │   │   │   └── route.ts          # API for active drivers
-│   │   │   ├── active-standings/
-│   │   │   │   └── route.ts          # API for current standings
-│   │   │   └── active-team-lineup/
-│   │   │       └── route.ts          # API for team lineup
-│   │   ├── simulate/
-│   │   │   └── page.tsx              # Main simulation page
-│   │   ├── layout.tsx                # Root layout
-│   │   ├── page.tsx                  # Homepage or layout wrapper
-│   │   └── globals.css               # Global styles
-│
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── globals.css
+│   │   └── simulate/
+│   │       └── page.tsx
 │   ├── components/
 │   │   ├── dashboard/
+│   │   │   ├── Dashboard.tsx
 │   │   │   └── standings/
+│   │   │       ├── List.tsx
+│   │   │       ├── StandingsList.tsx
 │   │   │       └── SimulateList/
 │   │   │           ├── SimulateList.tsx
-│   │   │           ├── SimulateListModal.tsx
-│   │   │           ├── List.tsx
-│   │   │           └── StandingsList.tsx
-│   │   │
-│   │   └── Dashboard.tsx            # Standings dashboard wrapper
-│   │
+│   │   │           └── SimulateListModal.tsx
 │   │   └── ui/
-│   │       ├── modal.tsx            # Modal UI component
-│   │       └── table.tsx            # Table UI component
-│
+│   │       ├── modal.tsx
+│   │       └── table.tsx
 │   ├── lib/
-│   │   └── utils.ts                 # Utility functions
-│
+│   │   └── utils.ts
 │   └── types/
-│       └── index.ts                 # Shared TypeScript types
-│
-├── .gitignore
-├── .yarnrc.yml
-├── components.json
-├── next-env.d.ts
-├── next.config.ts
+│       └── index.ts
+├── public/
 ├── package.json
-├── package-lock.json
-├── yarn.lock
-├── postcss.config.mjs
-├── tailwind.config.js
-├── tsconfig.json
 └── README.md
 ```
+
+---
+
+## 🚀 Getting Started
+
+```bash
+yarn install
+yarn dev
+```
+
+Open `http://localhost:3000`.
+
+---
+
+## 📌 Deployment
+
+The project is ready for deployment on Vercel. Sitemap generation runs automatically on build via `next-sitemap`.
